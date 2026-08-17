@@ -1,0 +1,140 @@
+.form {
+  background: var(--card-bg);
+  padding: 44px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--brown);
+  letter-spacing: 0.03em;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  outline: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  background: var(--input-bg);
+  color: var(--text);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--brown);
+  box-shadow: 0 0 0 3px rgba(128, 83, 51, 0.12);
+}
+
+.inputError {
+  border-color: #d94f4f;
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 3px rgba(217, 79, 79, 0.12);
+}
+
+.textarea {
+  resize: none;
+}
+
+.errorMsg {
+  font-size: 0.78rem;
+  color: #d94f4f;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.submitBtn {
+  margin-top: 8px;
+  background: linear-gradient(135deg, var(--brown), var(--gold));
+  color: #fff;
+  border: none;
+  padding: 16px;
+  border-radius: var(--radius-pill);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(128, 83, 51, 0.3);
+}
+
+.submitBtn:disabled {
+  background: var(--box);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Success state */
+.success {
+  background: var(--card-bg);
+  padding: 60px 44px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  animation: fadeInUp 0.5s ease both;
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--brown), var(--gold));
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.success h3 {
+  font-size: 1.5rem;
+  color: var(--dark);
+  font-weight: 700;
+}
+
+.success p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .form,
+  .success {
+    padding: 28px 22px;
+  }
+}

@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 20px;
+  gap: 20px;
+  min-height: 55vh;
+}
+
+.code {
+  font-size: 8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--brown), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  letter-spacing: -4px;
+}
+
+.heading {
+  font-size: 2.2rem;
+  color: var(--dark);
+  font-weight: 700;
+}
+
+.message {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 420px;
+  line-height: 1.7;
+}
+
+@media (max-width: 480px) {
+  .code    { font-size: 5.5rem; }
+  .heading { font-size: 1.6rem; }
+}

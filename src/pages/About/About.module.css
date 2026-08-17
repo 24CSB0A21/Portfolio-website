@@ -1,0 +1,165 @@
+.section {
+  margin-top: 55px;
+}
+
+/* ── Education ── */
+.eduList {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  border-left: 4px solid var(--gold);
+  padding-left: 30px;
+  margin-left: 8px;
+}
+
+.eduCard {
+  background: var(--card-bg);
+  padding: 28px 32px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform var(--transition), box-shadow var(--transition);
+  border: 1px solid var(--border);
+}
+
+.eduCard::before {
+  content: '';
+  position: absolute;
+  left: -38px;
+  top: 28px;
+  width: 14px;
+  height: 14px;
+  background: var(--brown);
+  border-radius: 50%;
+  border: 3px solid var(--bg);
+}
+
+.eduCard:hover {
+  transform: translateX(6px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.25);
+}
+
+.eduYear {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--brown);
+  background: var(--box);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.eduContent h3 {
+  font-size: 1.1rem;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+
+.eduContent h4 {
+  font-size: 0.9rem;
+  color: var(--brown);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.eduContent p {
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* ── Skills ── */
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.skillCategory {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.skillCategory h4 {
+  color: var(--brown);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skillTag {
+  background: var(--box);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+  cursor: default;
+}
+
+.skillTag:hover {
+  background: var(--brown);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+
+/* ── Achievements ── */
+.achievementGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.achievementCard {
+  background: linear-gradient(135deg, var(--brown), #6b3d20);
+  padding: 32px 20px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  color: #fff;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.achievementCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px rgba(90, 55, 25, 0.3);
+}
+
+.achievementCard h3 {
+  font-size: 2rem;
+  color: #f8d9a7;
+  margin-bottom: 10px;
+  font-weight: 800;
+}
+
+.achievementCard p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .skillsGrid       { grid-template-columns: 1fr; }
+  .achievementGrid  { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .eduList          { padding-left: 20px; }
+  .eduCard          { padding: 22px; }
+  .achievementGrid  { grid-template-columns: 1fr; }
+  .achievementCard h3 { font-size: 1.6rem; }
+}

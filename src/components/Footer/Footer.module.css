@@ -1,0 +1,71 @@
+.footer {
+  /* Always use a fixed deep-dark background so the footer never goes light in dark mode */
+  background: #1e0e06;
+  color: #f5dfc0;
+  margin-top: auto;
+  border-top: 1px solid rgba(200, 155, 90, 0.15);
+}
+
+/* In dark mode keep the same dark footer — no change needed since it's fixed */
+[data-theme="dark"] .footer {
+  background: #120904;
+  border-top-color: rgba(200, 155, 90, 0.2);
+}
+
+.inner {
+  width: 86%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.brand {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #f5dfc0;
+  letter-spacing: -0.3px;
+}
+
+.brand span {
+  color: #e8b76a;
+}
+
+.links {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.links a {
+  color: rgba(245, 223, 192, 0.7);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: color var(--transition);
+}
+
+.links a:hover {
+  color: #e8b76a;
+}
+
+.copy {
+  font-size: 0.78rem;
+  color: rgba(245, 223, 192, 0.45);
+}
+
+@media (max-width: 480px) {
+  .inner {
+    width: 94%;
+    gap: 16px;
+  }
+  .links {
+    gap: 20px;
+  }
+}

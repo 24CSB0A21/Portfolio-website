@@ -1,0 +1,186 @@
+/* ============================================================
+   Global CSS — Design tokens, resets, shared utilities
+   Light (default) + Dark theme via [data-theme="dark"]
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+/* ── Light theme tokens ───────────────────────────────────── */
+:root {
+  --bg: #f8f0e5;
+  --surface: #fff8ef;
+  --surface2: #ead3b4;
+  --brown: #805333;
+  --dark: #352014;
+  --gold: #c89b5a;
+  --cream: #fff8ef;
+  --box: #ead3b4;
+  --text: #4a3020;
+  --text-muted: #8a6a50;
+  --border: #d7b58a;
+  --shadow: 0 20px 40px rgba(90, 55, 25, 0.15);
+  --shadow-sm: 0 4px 12px rgba(90, 55, 25, 0.1);
+  --nav-bg: rgba(248, 240, 229, 0.92);
+  --card-bg: #ffffff;
+  --input-bg: #fff9f1;
+  --tag-bg: #ead3b4;
+  --transition: 0.3s ease;
+  --radius-lg: 35px;
+  --radius-md: 25px;
+  --radius-sm: 15px;
+  --radius-pill: 30px;
+}
+
+/* ── Dark theme tokens ────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg: #1a0f08;
+  --surface: #281608;
+  --surface2: #331d0e;
+  --brown: #d4895e;
+  --dark: #f5e0c4;
+  --gold: #eac070;
+  --cream: #281608;
+  --box: #4a2a14;
+  --text: #edd5b3;
+  --text-muted: #b08a68;
+  --border: #5a3520;
+  --shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --nav-bg: rgba(22, 12, 6, 0.95);
+  --card-bg: #221208;
+  --input-bg: #1e1006;
+  --tag-bg: #4a2a14;
+}
+
+/* ── Reset ────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--brown); border-radius: 20px; }
+
+/* ── Shared page wrapper ──────────────────────────────────── */
+.page-wrapper {
+  width: 86%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 0 60px;
+  flex: 1;
+}
+
+/* ── Section heading ──────────────────────────────────────── */
+.section-heading {
+  margin-bottom: 32px;
+}
+.section-heading h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--dark);
+  position: relative;
+  display: inline-block;
+}
+.section-heading h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--brown), var(--gold));
+  border-radius: 2px;
+  margin-top: 8px;
+}
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.primary-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--brown), var(--gold));
+  color: #fff;
+  padding: 13px 30px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+}
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(128, 83, 51, 0.35);
+}
+.secondary-btn {
+  display: inline-block;
+  border: 2px solid var(--brown);
+  color: var(--brown);
+  padding: 11px 28px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+.secondary-btn:hover {
+  background: var(--brown);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ── Tag pill ─────────────────────────────────────────────── */
+.tag {
+  display: inline-block;
+  background: var(--tag-bg);
+  color: var(--brown);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ── Fade-in animation ────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  animation: fadeInUp 0.7s ease both;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .page-wrapper { width: 92%; }
+}
+@media (max-width: 768px) {
+  .page-wrapper { width: 94%; }
+  .section-heading h2 { font-size: 1.8rem; }
+}
+@media (max-width: 480px) {
+  .page-wrapper { width: 96%; }
+  .section-heading h2 { font-size: 1.5rem; }
+}
