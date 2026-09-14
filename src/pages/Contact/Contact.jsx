@@ -1,14 +1,19 @@
 import ContactForm from '../../components/ContactForm/ContactForm'
 import styles from './Contact.module.css'
 
+// Contact page - shows contact info on the left and the form on the right
+// The ContactForm component manages all its own form state internally
 function Contact() {
   return (
     <div className="page-wrapper">
+      {/* page title */}
       <div className="section-heading">
         <h2>Contact</h2>
       </div>
 
+      {/* two-column layout: info card on the left, form on the right */}
       <div className={styles.layout}>
+        {/* left side: contact details and social links */}
         <aside className={styles.infoCard}>
           <h3>Get in Touch</h3>
           <p>
@@ -16,6 +21,7 @@ function Contact() {
             projects and collaborations.
           </p>
 
+          {/* list of contact details */}
           <div className={styles.contactItems}>
             <div className={styles.contactItem}>
               <strong>Personal Email</strong>
@@ -35,13 +41,15 @@ function Contact() {
             </div>
           </div>
 
+          {/* social buttons - open in a new tab */}
           <div className={styles.socialLinks}>
             <a href="https://github.com" target="_blank" rel="noreferrer" className={styles.socialBtn}>GitHub</a>
             <a href="https://linkedin.com" target="_blank" rel="noreferrer" className={styles.socialBtn}>LinkedIn</a>
           </div>
         </aside>
 
-        {/* ContactForm handles all form state internally */}
+        {/* right side: the contact form */}
+        {/* ContactForm handles its own state (name, email, message, errors) internally */}
         <ContactForm />
       </div>
     </div>

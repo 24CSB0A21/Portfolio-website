@@ -1,129 +1,395 @@
-# Rakshith Dongari — Portfolio (Assignment 2)
+# Rakshith Dongari — Portfolio (Assignment 3)
 
-A fully functional **React** single-page application converted from a static HTML/CSS portfolio.  
-Built with **Vite + React 18**, **react-router-dom v6**, and **plain CSS Modules** — no third-party component libraries.
+Assignment 3 extends the existing **React Portfolio from Assignment 2** with a
+**Node.js / Express** backend. The frontend now fetches all project and contact
+data from a REST API instead of local static files.
 
 ---
 
-## 🚀 Setup & Run Instructions
+## 📋 Project Overview
+
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| Frontend | React 18 + Vite | SPA portfolio UI |
+| Routing | React Router v6 | Client-side routing |
+| Data fetching | `fetch` + `useEffect` | Load API data into React state |
+| Backend | Node.js + Express | REST API server |
+| Cross-Origin | CORS | Allow frontend ↔ backend communication |
+| Config | dotenv | Environment variables |
+| Storage | JSON files | Persist project and contact data |
+
+No database or ORM is used. All data is stored in plain JSON files on disk.
+
+---
+
+## 🗂️ Repository Structure
+
+```
+fsd_week3/
+├── src/                        # React frontend (Assignment 2 + 3 changes)
+│   ├── components/
+│   │   ├── ContactForm/        # Controlled form → POST /api/contact
+│   │   ├── Layout/
+│   │   ├── Navbar/
+│   │   ├── Footer/
+│   │   ├── ProjectCard/
+│   │   ├── TechBadge/
+│   │   └── LoadingScreen/
+│   ├── pages/
+│   │   ├── Home/
+│   │   ├── About/
+│   │   ├── Projects/           # fetch() → GET /api/projects
+│   │   ├── ProjectDetail/      # fetch() → GET /api/projects/:id
+│   │   ├── Contact/
+│   │   └── NotFound/
+│   ├── data/
+│   │   └── projects.js         # KEPT for reference — frontend no longer reads this
+│   ├── App.jsx
+│   ├── App.css
+│   └── main.jsx
+│
+├── server/                     # Express backend (Assignment 3 — NEW)
+│   ├── data/
+│   │   ├── projects.json       # Project data served by the API
+│   │   └── contacts.json       # Contact form submissions (appended on POST)
+│   ├── server.js               # Express app entry point
+│   ├── package.json
+│   ├── .env                    # NOT committed (git-ignored)
+│   └── .env.example            # Safe template committed to git
+│
+├── .env                        # Vite env — VITE_API_BASE_URL (git-ignored)
+├── .gitignore
+├── package.json
+├── vite.config.js
+└── README.md
+```
+
+---
+
+## 🛠️ Technologies
+
+### Frontend
+- **React 18** — component UI
+- **React Router v6** — `<BrowserRouter>`, `<Routes>`, `useParams()`
+- **fetch API** — native browser API, no Axios
+- **useState / useEffect** — state and side effects
+- **CSS Modules** — scoped component styling
+- **Vite** — build tool and dev server
+
+### Backend
+- **Node.js** — runtime
+- **Express** — HTTP framework
+- **cors** — cross-origin resource sharing middleware
+- **dotenv** — loads `.env` into `process.env`
+- **nodemon** (dev only) — auto-restarts server on file changes
+
+### Storage
+- Plain **JSON files** on disk (`server/data/`)
+- No database, no ORM, no external service
+
+---
+
+## 📦 Installation
+
+### 1. Frontend dependencies (project root)
 
 ```bash
-# 1. Install dependencies
 npm install
-
-# 2. Start development server
-npm run dev
-# → Open http://localhost:5173
-
-# 3. Production build (zero console errors)
-npm run build
-npm run preview   # preview the built site
 ```
 
-> **Node requirement**: Node ≥ 18
+### 2. Backend dependencies
 
----
-
-## 📁 Folder Structure
-
-```
-src/
-├── assets/                     # static assets
-├── components/
-│   ├── Layout/                 # Shared layout (Navbar + Footer wrapper)
-│   ├── Navbar/                 # Sticky navbar with theme toggle + hamburger
-│   ├── Footer/                 # Footer with Link-based navigation
-│   ├── ProjectCard/            # Generic card — all content via props
-│   ├── TechBadge/              # Leaf component (grandchild in prop drilling chain)
-│   ├── ContactForm/            # Fully controlled form with validation
-│   └── LoadingScreen/          # Full-screen loading overlay
-├── pages/
-│   ├── Home/                   # Hero + about summary (loading useEffect)
-│   ├── About/                  # Education, skills, achievements
-│   ├── Projects/               # Maps projects.js → ProjectCard list
-│   ├── ProjectDetail/          # Dynamic /projects/:projectId (useParams)
-│   ├── Contact/                # ContactForm + info panel
-│   └── NotFound/               # 404 catch-all
-├── data/
-│   └── projects.js             # Central project data array
-├── App.jsx                     # Router + theme state
-├── App.css                     # Global tokens (light + dark CSS vars)
-└── main.jsx                    # ReactDOM entry
+```bash
+cd server
+npm install
 ```
 
 ---
 
-## 🧩 Component Tree & State-Lifting Decisions
+## ⚙️ Environment Setup
+
+### Backend — `server/.env`
+
+Create this file (it is **git-ignored** and must never be committed):
 
 ```
-App  ←  theme state (useState #1) lifted here so every child can access it
- ├─ Navbar   ← receives theme + toggleTheme via props (drilling level 1)
- ├─ Routes
- │   ├─ /           Home           ← loading state (useState internal)
- │   ├─ /about      About
- │   ├─ /projects   Projects       ← receives projects array from data module
- │   │    └─ ProjectCard           ← level 2: receives project fields as props
- │   │         └─ TechBadge        ← level 3: receives `label` string (grandchild)
- │   ├─ /projects/:projectId  ProjectDetail  ← useParams()
- │   ├─ /contact    Contact
- │   │    └─ ContactForm           ← controlled form state (useState #2)
- │   └─ *           NotFound
- └─ Footer
+PORT=5001
+DATA_FILE_PATH=./data
+ALLOWED_ORIGIN=http://localhost:5173
 ```
 
-**Why theme is lifted to `App`**: The Navbar (theme toggle button) and every page need to both *read* the current theme (to apply styles) and *trigger* a change. Lifting to `App` avoids prop-threading issues and keeps a single source of truth without requiring Context API.
+> **Note on PORT**: macOS reserves port 5000 for AirPlay Receiver.
+> Use `5001` (or disable AirPlay Receiver in System Settings → General → AirDrop & Handoff to use `5000`).
+
+A safe template is committed at `server/.env.example` — copy it:
+
+```bash
+cp server/.env.example server/.env
+```
+
+### Frontend — `.env` (project root)
+
+```
+VITE_API_BASE_URL=http://localhost:5001
+```
+
+Vite only exposes variables prefixed with `VITE_` to the browser bundle.
+
+> **Important**: Neither `.env` file should ever be committed to git.
+> Both are covered by `.gitignore`.
 
 ---
 
-## ⚛️ useState Hooks (3 independent pieces of state)
+## 🚀 Running the Application
 
-| # | State | Component | Purpose |
-|---|-------|-----------|---------|
-| **1** | `theme` (`'light'` \| `'dark'`) | `App.jsx` | Global theme toggle — lifted to top level, shared downward via props |
-| **2** | `formData`, `errors`, `submitted` | `ContactForm.jsx` | Controlled form: every input bound to state; submit disabled until valid |
-| **3** | `expanded` (boolean) | `ProjectCard.jsx` | Per-card "View Details" toggle — each card instance has its own independent state |
+Both servers must run **simultaneously in separate terminals**.
 
----
+### Terminal 1 — Backend
 
-## 🔁 useEffect Hooks
+```bash
+cd server
+npm run dev        # nodemon (auto-restart on changes)
+# or
+npm start          # plain node (production)
+```
 
-| # | Location | Dependencies | Purpose | Cleanup |
-|---|----------|-------------|---------|---------|
-| **Effect 1** | `Home.jsx` | `[]` (mount only) | `setTimeout` for 1.2-second loading sequence before showing hero content | `clearTimeout(timer)` prevents state update on unmounted component |
-| **Effect 2** | `App.jsx` | `[theme]` | Writes theme value to `localStorage` and sets `data-theme` attribute on `<html>` whenever theme changes; lazy initialiser reads saved preference on first render | n/a — no subscription/event |
-| **Effect 3** | `Navbar.jsx` | `[]` (mount only) | `window.addEventListener('resize', ...)` auto-closes hamburger menu when viewport widens past 768 px | `window.removeEventListener(...)` prevents memory leak |
-| **Effect 4** | `Navbar.jsx` | `[]` (mount only) | `document.addEventListener('mousedown', ...)` closes menu when clicking outside the nav | `document.removeEventListener(...)` cleanup |
+The server starts on `http://localhost:5001`.
 
----
+### Terminal 2 — Frontend
 
-## 🗺️ Routes
-
-| Path | Component | Notes |
-|------|-----------|-------|
-| `/` | `Home` | Loading screen on mount |
-| `/about` | `About` | Education · Skills · Achievements |
-| `/projects` | `Projects` | List of all project cards |
-| `/projects/:projectId` | `ProjectDetail` | Dynamic route via `useParams()` |
-| `/contact` | `Contact` | Controlled form with validation |
-| `*` | `NotFound` | 404 with back-to-home link |
-
-All navigation uses `<NavLink>` / `<Link>` — **no plain `<a>` tags** for internal routes.
+```bash
+npm run dev        # from project root
+# Open http://localhost:5173
+```
 
 ---
 
-## 🎨 Styling
+## 🌐 API Documentation
 
-- Warm **cream/brown/gold** palette inherited from Assignment 1
-- **Dark mode** implemented via `[data-theme="dark"]` CSS variable overrides
-- **CSS Modules** per component for class scoping
-- Responsive breakpoints: mobile ≤ 480 px, tablet ≤ 768 px
+Base URL: `http://localhost:5001`
 
 ---
 
-## ♿ Accessibility
+### GET / — Health Check
 
-- Semantic HTML: `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>`, `<footer>`
-- Single `<h1>` per page; logical heading hierarchy
-- `aria-label`, `aria-expanded`, `aria-describedby` on interactive elements
-- Form errors announced via `role="alert"`
-- WCAG AA color contrast maintained in both light and dark modes
+**Purpose:** Verify the server is running.
+
+**Response 200:**
+```json
+{ "status": "ok" }
+```
+
+---
+
+### GET /api/projects — Get All Projects
+
+**Purpose:** Returns all projects from `server/data/projects.json`.
+
+**Response 200:**
+```json
+[
+  {
+    "id": 1,
+    "title": "RAG Studio: PDF RAG Chatbot",
+    "description": "...",
+    "shortDesc": "...",
+    "techStack": ["Python", "AI", "RAG", "ChromaDB"],
+    "image": null,
+    "link": "#",
+    "github": "#",
+    "year": "2025",
+    "status": "Completed"
+  }
+]
+```
+
+---
+
+### GET /api/projects/:id — Get Single Project
+
+**Purpose:** Returns a single project by numeric id.
+
+**Response 200** (found):
+```json
+{ "id": 1, "title": "RAG Studio: PDF RAG Chatbot", "techStack": [...], ... }
+```
+
+**Response 404** (not found):
+```json
+{ "error": "Project not found" }
+```
+
+---
+
+### POST /api/contact — Submit Contact Form
+
+**Purpose:** Validates and persists a contact form submission.
+
+**Headers:** `Content-Type: application/json`
+
+**Request body:**
+```json
+{
+  "name": "Rakshith",
+  "email": "test@example.com",
+  "message": "Hello, I'd like to connect."
+}
+```
+
+**Response 201** (success):
+```json
+{ "message": "Contact submitted successfully" }
+```
+
+**Response 400** (validation failure):
+
+Validation runs in order — first failing field is returned:
+
+| Field | Error |
+|---|---|
+| name missing/empty | `{ "error": "Name is required" }` |
+| email missing/empty | `{ "error": "Email is required" }` |
+| email invalid format | `{ "error": "Invalid email format" }` |
+| message missing/empty | `{ "error": "Message is required" }` |
+
+Each valid submission is appended to `server/data/contacts.json`.
+Previous submissions are never overwritten.
+Each entry contains `id` (timestamp), `name`, `email`, `message`, `timestamp` (ISO 8601).
+
+---
+
+### GET /api/contact — Get All Contact Submissions
+
+**Purpose:** Returns all stored contact form submissions as a JSON array.
+
+**Auth:** None — intentionally open endpoint. Authentication is out of scope for this assignment.
+
+**Response 200:**
+```json
+[
+  {
+    "id": 1789291852935,
+    "name": "Rakshith",
+    "email": "test@example.com",
+    "message": "Hello",
+    "timestamp": "2026-09-13T09:30:52.935Z"
+  }
+]
+```
+
+Returns `[]` if no submissions exist yet.
+
+---
+
+### Error Handling
+
+**Unknown route — 404:**
+```json
+{ "error": "Route not found" }
+```
+
+**Unexpected server error — 500:**
+```json
+{ "error": "Internal server error" }
+```
+
+HTML error pages are never returned. Stack traces are never exposed. The server remains running after errors.
+
+---
+
+## 💾 Storage
+
+| File | Contents |
+|---|---|
+| `server/data/projects.json` | All 4 portfolio projects |
+| `server/data/contacts.json` | Array of contact form submissions (appended on each valid POST) |
+
+No database or ORM is used. Files are read/written using Node's built-in `fs` module.
+
+---
+
+## 🧪 curl Test Commands
+
+Replace `5001` with `5000` if your port differs.
+
+```bash
+# 1. Health check
+curl http://localhost:5001/
+
+# 2. Get all projects
+curl http://localhost:5001/api/projects
+
+# 3. Get single project (valid)
+curl http://localhost:5001/api/projects/1
+
+# 4. Get single project (invalid — expect 404)
+curl http://localhost:5001/api/projects/999
+
+# 5. Valid contact submission (expect 201)
+curl -X POST http://localhost:5001/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Rakshith","email":"test@example.com","message":"Hello"}'
+
+# 6. Invalid email (expect 400)
+curl -X POST http://localhost:5001/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Rakshith","email":"invalid","message":"Hello"}'
+
+# 7. Missing message (expect 400)
+curl -X POST http://localhost:5001/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Rakshith","email":"test@example.com"}'
+
+# 8. Get all stored contacts
+curl http://localhost:5001/api/contact
+
+# 9. Unknown route (expect 404)
+curl http://localhost:5001/api/doesnotexist
+```
+
+---
+
+## ✅ Assignment 3 Code Review Checklist
+
+### Backend
+- [x] Backend lives in `/server`
+- [x] `GET /` returns `{ "status": "ok" }`
+- [x] `GET /api/projects` returns JSON array
+- [x] `GET /api/projects/:id` returns project or 404 JSON
+- [x] `POST /api/contact` validates and persists submission
+- [x] `GET /api/contact` returns stored submissions
+- [x] 404 catch-all returns JSON (never HTML)
+- [x] Global error handler returns JSON (never HTML or stack traces)
+- [x] CORS enabled using `ALLOWED_ORIGIN` from `.env`
+- [x] Port from `process.env.PORT` (not hardcoded)
+- [x] `server/.env` is git-ignored
+- [x] `server/.env.example` is committed
+
+### Frontend
+- [x] Static project data no longer used by frontend
+- [x] `Projects` page: `fetch` + `useEffect` + loading + error states
+- [x] `ProjectDetail`: `useParams()` + API call + handles 404 and network errors
+- [x] `ProjectDetail`: works on direct URL and browser refresh
+- [x] `ContactForm`: POSTs to `/api/contact`, shows server errors, resets on success
+
+### Assignment 2 Regression
+- [x] Navbar, theme toggle, routing, 404 page all work
+- [x] Home, About, Projects, Contact pages unchanged
+- [x] Responsive design and existing styling preserved
+
+---
+
+## 🔒 .gitignore
+
+```
+node_modules/
+server/node_modules/
+dist/
+.env
+.env.local
+server/.env
+*.log
+.DS_Store
+```
+
+`server/.env.example` **is** committed to git — it contains no secrets.

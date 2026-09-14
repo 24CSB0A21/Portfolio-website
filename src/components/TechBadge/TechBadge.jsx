@@ -1,7 +1,8 @@
 import styles from './TechBadge.module.css'
 
-// TechBadge - receives a single label string as a prop
-// This is the grandchild in the prop drilling chain: Projects -> ProjectCard -> TechBadge
+// TechBadge - the deepest component in the prop drilling chain
+// Prop drilling: Projects page → ProjectCard → TechBadge (3 levels deep)
+// receives a single `label` string (e.g. "React", "Python") and renders it as a pill
 function TechBadge({ label }) {
   return <span className={styles.badge}>{label}</span>
 }

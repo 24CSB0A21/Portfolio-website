@@ -1,5 +1,8 @@
 import styles from './About.module.css'
 
+// ── Data arrays defined outside the component so they don't recreate on every render ──
+
+// list of educational qualifications in reverse chronological order
 const education = [
   {
     id: 1,
@@ -24,6 +27,7 @@ const education = [
   },
 ]
 
+// skill categories with their individual skills
 const skills = [
   {
     id: 1,
@@ -47,6 +51,7 @@ const skills = [
   },
 ]
 
+// competitive programming and exam achievements
 const achievements = [
   { id: 1, title: 'AIR 5131',  subtitle: 'JEE Advanced 2024' },
   { id: 2, title: '99.77%',   subtitle: 'JEE Main 2024 Percentile' },
@@ -59,15 +64,16 @@ function About() {
   return (
     <div className="page-wrapper">
 
-      {/* Education Section */}
+      {/* ── Education Section ── */}
       <section className={styles.section}>
         <div className="section-heading">
           <h2>Education</h2>
         </div>
+        {/* map over education array to render one card per entry */}
         <div className={styles.eduList}>
           {education.map(edu => (
             <article key={edu.id} className={styles.eduCard}>
-              <span className={styles.eduYear}>{edu.year}</span>
+              <span className={styles.eduYear}>{edu.year}</span> {/* e.g. "2024 – Present" */}
               <div className={styles.eduContent}>
                 <h3>{edu.school}</h3>
                 <h4>{edu.degree}</h4>
@@ -78,15 +84,17 @@ function About() {
         </div>
       </section>
 
-      {/* Skills Section */}
+      {/* ── Skills Section ── */}
       <section className={styles.section}>
         <div className="section-heading">
           <h2>Technical Skills</h2>
         </div>
+        {/* 2-column grid, each cell is a skill category */}
         <div className={styles.skillsGrid}>
           {skills.map(group => (
             <div key={group.id} className={styles.skillCategory}>
               <h4>{group.category}</h4>
+              {/* map each skill as a tag/pill */}
               <div className={styles.skillTags}>
                 {group.items.map(item => (
                   <span key={item} className={styles.skillTag}>{item}</span>
@@ -97,16 +105,17 @@ function About() {
         </div>
       </section>
 
-      {/* Achievements Section */}
+      {/* ── Achievements Section ── */}
       <section className={styles.section}>
         <div className="section-heading">
           <h2>Achievements</h2>
         </div>
+        {/* 3-column grid of achievement cards */}
         <div className={styles.achievementGrid}>
           {achievements.map(a => (
             <article key={a.id} className={styles.achievementCard}>
-              <h3>{a.title}</h3>
-              <p>{a.subtitle}</p>
+              <h3>{a.title}</h3>     {/* big stat number or rank */}
+              <p>{a.subtitle}</p>    {/* what the stat is for */}
             </article>
           ))}
         </div>

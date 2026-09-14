@@ -1,27 +1,19 @@
-# Build output
-dist/
-dist-ssr/
-
 # Dependencies
 node_modules/
+server/node_modules/
+
+# Build output
+dist/
+
+# Environment files — NEVER commit secrets
+.env
+.env.local
+server/.env
 
 # Logs
 *.log
 npm-debug.log*
 
-# Editor / OS junk
+# OS files
 .DS_Store
-.vscode/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Environment files
-.env
-.env.local
-.env.*.local
-
-# Vite cache
-.vite/
+Thumbs.db
